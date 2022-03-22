@@ -21,11 +21,9 @@ function solution(s) {
       } else {
         if (equalCnt >= 2) {
           pressTempArray.push(equalCnt);
-          pressTempArray.push(currentArray.join(''));
           equalCnt = 1;
-        } else {
-          pressTempArray.push(currentArray.join(''));
         }
+        pressTempArray.push(currentArray.join(''));
       }
     });
 
