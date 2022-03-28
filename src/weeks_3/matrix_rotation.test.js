@@ -1,4 +1,4 @@
-const solution = require('./lotto');
+const solution = require('./matrix_rotation');
 
 describe('행렬 테두리 회전하기', () => {
   test('solution test 1', () => {

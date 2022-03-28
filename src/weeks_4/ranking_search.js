@@ -1,4 +1,4 @@
-function solution(rows, columns, queries) {
+function solution(info, query) {
   var answer = [];
   return answer;
 }
