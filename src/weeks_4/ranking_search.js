@@ -28,10 +28,10 @@ function solution(info, query) {
   const splitInfo = splitSpaceAnd(info);
   const splitQuery = splitSpaceAnd(query);
 
-  // console.log('==splitInfo====');
-  // console.log(splitInfo);
-  // console.log('==splitQuery====');
-  // console.log(splitQuery);
+  console.log('==splitInfo====');
+  console.log(splitInfo);
+  console.log('==splitQuery====');
+  console.log(splitQuery);
 
   for (let i = 0; i < splitQuery.length; i++) {
     const q = splitQuery[i];
