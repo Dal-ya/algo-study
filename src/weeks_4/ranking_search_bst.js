@@ -11,11 +11,11 @@ const info = [
 ];
 
 const query = [
-  // 'java and backend and junior and pizza 100',
-  // 'python and frontend and senior and chicken 200',
-  // 'cpp and - and senior and pizza 250',
-  // '- and backend and senior and - 150',
-  // '- and - and - and chicken 100',
+  'java and backend and junior and pizza 100',
+  'python and frontend and senior and chicken 200',
+  'cpp and - and senior and pizza 250',
+  '- and backend and senior and - 150',
+  '- and - and - and chicken 100',
   '- and - and - and - 150',
 ];
 
@@ -84,14 +84,13 @@ function solution(info, query) {
         } else {
           left = mid + 1;
         }
-
-        answer[answerIdx] = valueList.length - left;
       }
-      answerIdx++;
+      answer[answerIdx] = valueList.length - left;
     }
+    answerIdx++;
   }
 
-  console.log(answer);
+  // console.log(answer);
   return answer;
 }
 
