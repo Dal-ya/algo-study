@@ -1,0 +1,19 @@
+'java backend junior pizza' : [150]
+'java backend junior -'
+'java backend - pizza'
+'java backend - -'
+
+'java - junior pizza'
+'java - junior -'
+'java - - pizza'
+'java - - -'
+
+'- backend junior pizza'
+'- backend junior -'
+'- backend - pizza'
+'- backend - -'
+
+'- - junior pizza'
+'- - junior -'
+'- - - pizza'
+'- - - -'
