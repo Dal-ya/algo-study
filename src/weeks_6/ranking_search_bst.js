@@ -71,7 +71,7 @@ function solution(info, query) {
     const key = data.join(' ');
     // console.log('key: ', key);
 
-    // bts
+    // bs
     if (hashMap.hasOwnProperty(key)) {
       const valueList = hashMap[key]; // valueList:  [ 50, 80, 150, 150, 210, 260 ]
       // console.log('valueList: ', valueList);
