@@ -1,7 +1,8 @@
 // 배열과 링크드 리스트
 // 배열 --> 고정 길이, 찾을 때 빠름
-// 링크드 리스트 --> 노드 연결, 추가/삭제할 때 빠름
+// 링크드 리스트 --> 노드 연결, 추가/삭제할 때 빠름 포인터 주소를 참조
 
+//3 싱글, 더블, 원형
 
 class Node {
   constructor(value) {
@@ -66,6 +67,13 @@ class SinglyLinkedList {
   }
 }
 
+// class CircularLinkedList extends SinglyLinkedList {
+//   실패
+//   append() {
+//     this.tail.next = this.head;
+//     this.tail = newNode;
+//   }
+// }
 
 const linkedList = new SinglyLinkedList();
 linkedList.append(1);
@@ -78,3 +86,5 @@ linkedList.remove(3);
 linkedList.display();
 linkedList.insert(linkedList.find(2), 10);
 linkedList.display();
+
+

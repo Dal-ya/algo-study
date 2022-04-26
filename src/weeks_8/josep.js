@@ -5,13 +5,15 @@
 // 유다이아 전쟁에서 패배하고 로마군에게 포위당한 상황 (41명)
 // 유대교 교리상 자살은 할 수 없음
 // 요세푸스가 제안한 방식으로 서로를 제외
-// 1,2,3,4,5... -> N명의 사람과 K번째 제외
+// 1,2,3,4,5... -> N명의 사람과 K번째 제외(remove)
 // 예) 5명 2번
 // 1, 2, 3, 4, 5
 // 1, 3, 4, 5  (2)
 // 1, 3, 5 (2, 4)
 // 3, 5 (2, 4, 1)
 // 3 (2, 4, 1, 5)
+
+// queue, circular linked list, 점화식(공식)-수학적 유도(콘크리트 수학책)
 
 // Circular Linked List 를 이용해서 푸는 방법(?)
 function josepSequence(N, K) {
@@ -36,7 +38,7 @@ function josepSequence(N, K) {
 }
 
 const result = josepSequence(7, 3);
-console.log('result: ', result);
+console.log('result: ', result); // result:  [3, 6, 2, 7, 5, 1, 4]
 
 // Array.from()
 // Array.from('abc') ==> Array ['a', 'b', 'c']
