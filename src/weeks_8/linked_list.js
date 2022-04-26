@@ -1,3 +1,8 @@
+// 배열과 링크드 리스트
+// 배열 --> 고정 길이, 찾을 때 빠름
+// 링크드 리스트 --> 노드 연결, 추가/삭제할 때 빠름
+
+
 class Node {
   constructor(value) {
     this.value = value;

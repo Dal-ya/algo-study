@@ -21,16 +21,21 @@ function josepSequence(N, K) {
   console.log('q: ', q);
   let removeIdx = 0;
 
+  let resultArr = [];
+
   while (q.length > 1) {
     removeIdx = (removeIdx + K - 1) % q.length;
     console.log('removeIdx: ', removeIdx);
     console.log('remove: ', q[removeIdx]);
+    resultArr.push(q[removeIdx]);
     q = q.filter((_, idx) => removeIdx !== idx);
   }
-  return q;
+  // console.log([...resultArr, ...q]);
+  // return q;
+  return [...resultArr, ...q];
 }
 
-const result = josepSequence(5, 2);
+const result = josepSequence(7, 3);
 console.log('result: ', result);
 
 // Array.from()
