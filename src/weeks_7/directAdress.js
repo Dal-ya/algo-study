@@ -1,6 +1,6 @@
 // https://evan-moon.github.io/2019/06/25/hashtable-with-js/
 // 직접 주소 테이블
-class DirectAddressTabe {
+class DirectAddressTable {
   constructor() {
     this.table = [];
   }
@@ -18,7 +18,7 @@ class DirectAddressTabe {
   }
 }
 
-const table = new DirectAddressTabe();
+const table = new DirectAddressTable();
 table.setValue(3);
 table.setValue(11);
 table.setValue(100);
