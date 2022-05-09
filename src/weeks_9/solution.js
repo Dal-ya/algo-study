@@ -25,7 +25,7 @@ function solution(n, lost, reserve) {
   return answer;
 }
 
-const result = solution(3, [3], [1]);
+const result = solution(5, [1, 3], [1, 4, 5]);
 console.log(result);
 
 module.exports = solution;
