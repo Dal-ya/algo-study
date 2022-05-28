@@ -30,6 +30,7 @@ function sep(f, idx = 0) {
   let isNumStart = false;
 
   for (let i = 0; i < f.length; i++) {
+    // 0 이면 false 가 되므로 isInteger 함수를 이용한다.
     if (Number.isInteger(parseInt(f[i]))) {
       isNumStart = true;
       numArea.push(f[i]);
