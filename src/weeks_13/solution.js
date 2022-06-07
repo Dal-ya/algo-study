@@ -4,7 +4,7 @@
 function solution(bridge_length, weight, truck_weights) {
   var timeCount = 0;
 
-  const bridge = new Array(bridge_length);
+  const bridge = new Array(bridge_length).fill(0);
 
   let currentBridgeWeight = 0;
 
