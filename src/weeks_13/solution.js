@@ -4,6 +4,7 @@
 function solution(bridge_length, weight, truck_weights) {
   var timeCount = 0;
 
+  // 배열 채우기
   const bridge = new Array(bridge_length).fill(0);
 
   let currentBridgeWeight = 0;
@@ -17,6 +18,7 @@ function solution(bridge_length, weight, truck_weights) {
       return prev + curr;
     }, 0);
 
+    // 잔여 중량 확인 후 트럭 건너기
     if (currentBridgeWeight + truck_weights[0] <= weight) {
       bridge.push(truck_weights.shift());
     } else {

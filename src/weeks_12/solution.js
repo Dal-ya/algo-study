@@ -5,6 +5,8 @@ function solution(files) {
     return sep(file, idx);
   });
 
+  console.log('sepFiles: ', sepFiles);
+
   sepFiles.sort((a, b) => {
     if (a.head > b.head) return 1;
     if (a.head < b.head) return -1;
@@ -17,7 +19,7 @@ function solution(files) {
     }
   });
 
-  answer = sepFiles.map(f => f.name);
+  answer = sepFiles.map((f) => f.name);
 
   return answer;
 }
@@ -56,18 +58,22 @@ function sep(f, idx = 0) {
 }
 
 const testFiles = [
-  'img12.png', 'img10.png',
-  'img02.png', 'img1.png',
-  'IMG01.GIF', 'img2.JPG',
+  'img12.png',
+  'img10.png',
+  'img02.png',
+  'img1.png',
+  'IMG01.GIF',
+  'img2.JPG',
 ];
 
 const testFiles2 = [
-  'F-5 Freedom Fighter', 'B-50 Superfortress',
-  'A-10 Thunderbolt II', 'F-14 Tomcat',
+  'F-5 Freedom Fighter',
+  'B-50 Superfortress',
+  'A-10 Thunderbolt II',
+  'F-14 Tomcat',
 ];
 
 solution(testFiles2);
-
 
 // 참고
 // https://cyberx.tistory.com/16
