@@ -1,5 +1,20 @@
 function solution(orders, course) {
   var answer = [];
+
+  for (let i = 0; i < course.length; i++) {
+    let menuList = [];
+
+    for (let j = 0; j < orders.length; j++) {
+      const r = genMenu(orders[j].split(''), course[i]);
+      menuList.push(...r);
+      // console.log(menuList);
+    }
+
+    answer.push(...rankMenu(menuList));
+  }
+
+  answer.sort();
+
   return answer;
 }
 
@@ -28,6 +43,10 @@ function rankMenu(menuList) {
 
   const maxNum = Math.max(...Object.values(obj));
 
+  if (maxNum < 2) {
+    return [];
+  }
+
   let maxMenu = [];
 
   for (let key in obj) {
@@ -41,18 +60,32 @@ function rankMenu(menuList) {
   return maxMenu;
 }
 
-// n 값 만큼 조합을 넘겨주는 함수
-// n: 2, str: 'ABC' ===> ['AB', 'AC', 'BC]:
-// n: 3, str: 'ABC' ===> ['ABC']
-function menu(str, n) {
+// n 값 만큼 조합을 넘겨주는 함수(조합 구하는 함수)
+// n: 2, strArr: ['A', 'B', 'C'] ==> ['AB', 'AC', 'BC']
+function genMenu(strArr, n) {
   let r = [];
+  let temp = []; // [ ['A', 'B'], ['A', 'C'], ...]
 
-  for (let i = 0; i < str.length - 1; i++) {
-    for (let j = i + n - 1; j < str.length; j++) {
-      r.push(`${str.slice(i, i + n - 1)}${str[j]}`);
-    }
+  if (n === 1) {
+    return strArr;
   }
 
-  // console.log(r);
+  strArr.forEach((v, i, arr) => {
+    const rest = arr.slice(i + 1);
+    const c = genMenu(rest, n - 1); // combination
+    const a = c.map((el) => [v, ...el]);
+    temp.push(...a);
+  });
+
+  temp.forEach((el) => {
+    // 'XW' 와 'XW' 는 같은 것이므로 sort 로 정렬한다
+    r.push(el.sort().join(''));
+  });
+
   return r;
 }
+
+const orderList = ['XYZ', 'XWY', 'WXA'];
+const courseList = [2, 3, 4];
+const r = solution(orderList, courseList);
+console.log('result: ', r);
