@@ -1,3 +1,5 @@
+// orderList, courseList 는 오름차순으로 전부 정렬되어 있다고 가정.
+
 function solution(orders, course) {
   var answer = [];
 
@@ -18,13 +20,6 @@ function solution(orders, course) {
   return answer;
 }
 
-// corse 값 만큼 order를 나누기
-// ex) corse: 2 ==> order 'abcd' ==> 'ab' ,'ac', 'ad' 'bc' ....
-// order가 orderList 에 얼마나 많이 있는 지 확인하고
-// 가장 많이 나온 order 들을 리턴하면 됨.
-
-// orderList, courseList 는 오름차순으로 전부 정렬되어 있다고 가정.
-
 // menuList 중에서 가장 많이 노출된 menu 구하기 (복수개 가능)
 // menuList = ['AB', 'AC', 'AB', 'DE', 'DF', 'DF']
 // return ===> ['AB', 'DF']
@@ -32,6 +27,14 @@ function rankMenu(menuList) {
   const keyArr = [...new Set(menuList)];
 
   let obj = {};
+
+  /*
+    {
+      A: 0,
+      B: 0,
+      C: 0,
+    }
+  */
 
   keyArr.forEach((key) => {
     obj[key] = 0;
@@ -62,6 +65,10 @@ function rankMenu(menuList) {
 
 // n 값 만큼 조합을 넘겨주는 함수(조합 구하는 함수)
 // n: 2, strArr: ['A', 'B', 'C'] ==> ['AB', 'AC', 'BC']
+// 'AB', 'BA' 는 같은 것으로 sort 를 이용해 오름차순으로 정렬한다 'AB': 2
+
+// combination 구하기 참고
+// https://velog.io/@devjade/JavaScript%EB%A1%9C-%EC%88%9C%EC%97%B4%EA%B3%BC-%EC%A1%B0%ED%95%A9-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
 function genMenu(strArr, n) {
   let r = [];
   let temp = []; // [ ['A', 'B'], ['A', 'C'], ...]
@@ -78,7 +85,8 @@ function genMenu(strArr, n) {
   });
 
   temp.forEach((el) => {
-    // 'XW' 와 'XW' 는 같은 것이므로 sort 로 정렬한다
+    // 'XW' 와 'WX' 는 같은 것이므로 sort 로 오름차순으로 정렬한다
+    // 'WX' 는 2개가 된다
     r.push(el.sort().join(''));
   });
 
