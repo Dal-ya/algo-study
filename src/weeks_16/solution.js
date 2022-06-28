@@ -1,31 +1,51 @@
 function solution(n, words) {
-  var answer = [];
+  var answer = [0, 0];
+
+  let wIdx = -1; // wrong word idx
+
+  for (let i = 1; i < words.length; i++) {
+    if (
+      !checkWrongWord(words[i - 1], words[i]) ||
+      !checkEqualWord(words[i], words.slice(0, i))
+    ) {
+      wIdx = i;
+      break;
+    }
+  }
+
+  console.log(wIdx);
+
+  if (wIdx !== -1) {
+    let player = parseInt(wIdx % n) + 1;
+
+    let times = parseInt(wIdx / n) + 1;
+
+    // console.log(times);
+    // console.log(player);
+
+    answer = [player, times];
+  }
 
   return answer;
 }
 
-function findEqualWord(list) {
-  for (let i = 0; i < list.length; i++) {
-    // 동일한 단어가 존재하는 경우
-    var r = list.slice(i + 1).indexOf(list[i]);
-    if (r !== -1) {
-      console.log(r + i + 1);
-    } else {
-      console.log(r);
-    }
+function checkWrongWord(prev, curr) {
+  if (prev[prev.length - 1] !== curr[0]) {
+    return false;
   }
+
+  return true;
 }
 
-const arr = [
-  'tanka',
-  'kick',
-  'know',
-  'wheel',
-  'land',
-  'dream',
-  'mother',
-  'wheela',
-  'mother',
-];
+function checkEqualWord(curr, prevWords) {
+  if (prevWords.includes(curr)) {
+    return false;
+  }
 
-findEqualWord(arr);
+  return true;
+}
+
+// const arr = ['hello', 'one', 'even', 'never', 'now', 'world', 'draw'];
+
+// const r = solution(2, arr);
+// console.log(r);
