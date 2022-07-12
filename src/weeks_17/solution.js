@@ -1,20 +1,25 @@
 function solution(arr1, arr2) {
-  var answer = arr1.map((v) => v.slice()); // 2차원 배열 값복사
+  // var answer = arr1.map((v) => v.slice()); // 2차원 배열 값복사
+  let answer = [];
 
   const arrT = zip(arr2); // transpose arr2
 
-  console.log('transpose arr: ', arrT);
+  // console.log('transpose arr: ', arrT);
 
   for (let i = 0; i < arr1.length; i++) {
-    for (let j = 0; j < arr1[i].length; j++) {
+    let arry = [];
+
+    for (let j = 0; j < arr2[0].length; j++) {
       // console.log('arr1[i]: ', arr1[i]);
       // console.log('arrT[j]', arrT[j]);
       // console.log('multiple: ', multiple(arr1[i], arrT[j]));
-      answer[i][j] = multiple(arr1[i], arrT[j]);
+      arry.push(multiple(arr1[i], arrT[j]));
     }
+
+    answer.push(arry);
   }
 
-  console.log('answer: ', answer);
+  // console.log('answer: ', answer);
 
   return answer;
 }
@@ -34,15 +39,3 @@ function multiple(arrA, arrB) {
 
   return sum;
 }
-
-const arr1 = [
-  [1, 2],
-  [3, 4],
-];
-
-const arr2 = [
-  [1, 2],
-  [3, 4],
-];
-
-solution(arr1, arr2);
