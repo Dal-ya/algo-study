@@ -5,6 +5,8 @@ function solution(n, left, right) {
 
   answer = nArr.flat().slice(left, right + 1);
 
+  console.log('answer: ', answer);
+
   return answer;
 }
 
@@ -13,6 +15,8 @@ function genArr(n, target) {
     return target;
   }
 
+  // n의 값으로 채워진 2차원 배열 만들기
+  // node.js 에서 안 돌아가는 이유
   const arr = Array.from(Array(n), () => Array(n).fill(n));
   // console.log('arr: ', arr);
   // console.log('target: ', target);
@@ -33,3 +37,5 @@ function genArr(n, target) {
 
   return genArr(n - 1, copyTarget);
 }
+
+solution(3, 2, 5);
