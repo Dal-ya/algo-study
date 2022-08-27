@@ -11,10 +11,10 @@
 
   <!-- vue install -->
   <!-- development version, includes helpful console warnings -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <!--  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>-->
 
   <!-- production version, optimized for size and speed -->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
   <title>덩치</title>
 </head>
@@ -69,7 +69,9 @@
 
     data: {
       peopleCnt: 2,
-      weightAndHeightList: [], // {id: 1, w: 65, h: 178, score: 0, rank: 0}
+
+      // [ {id: 1, w: 65, h: 178, score: 0, rank: 0}, {...}, ... ]
+      weightAndHeightList: [],
 
       // 순위 정하기 버튼 누른 경우 순위 보여주기 위해 체크
       isSubmitCompareRank: false
@@ -101,7 +103,6 @@
       },
 
       onSubmit() {
-        console.log('onSubmit!');
         this.compareWeightAndHeight();
 
         this.compareRank();
@@ -111,6 +112,7 @@
 
       onKeydownPeopleCnt(e) {
         e.preventDefault();
+
         alert('인원수 등록은 업/다운 버튼만 활용해 주세요 :)');
       },
 
@@ -151,7 +153,6 @@
       },
 
       compareWeightAndHeight() {
-        console.log('compareWeightAndHeight!');
         for (let i = 0; i < this.weightAndHeightList.length; i++) {
           for (let j = 0; j < this.weightAndHeightList.length; j++) {
             if (
@@ -163,10 +164,6 @@
             }
           }
         }
-
-        console.log(this.weightAndHeightList);
-
-
       },
 
       compareRank() {
