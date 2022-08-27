@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no,
+                 initial-scale=1.0, maximum-scale=1.0,
+                 minimum-scale=1.0"
+  />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <!-- vue install -->
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+  <!-- production version, optimized for size and speed -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>-->
+
+  <title>덩치</title>
+</head>
+<body>
+<div id="app">
+  <h5>인원을 입력하세요(2~50)</h5>
+  <form v-on:submit.prevent="onSubmit">
+    <input
+      :value="peopleCnt"
+      @change="onChangePeopleCnt(peopleCnt, $event)"
+      @keydown="onKeydownPeopleCnt"
+      type="number"
+      min="2"
+      max="50"
+    />
+    <hr />
+    <div>
+      <div v-for="n in validPeopleCnt">
+        <span>{{ n }}번 : </span>
+        <input
+          v-model.number="weightAndHeightList[n-1]['w']"
+          type="number"
+          min="10"
+          max="200"
+          placeholder="몸무게"
+        />
+        <input
+          v-model.number="weightAndHeightList[n-1]['h']"
+          type="number"
+          min="10"
+          max="200"
+          placeholder="신장"
+        />
+
+        <span></span>
+      </div>
+    </div>
+
+    <div>
+      <button type="submit">덩치 순위 정하기</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  const app = new Vue({
+    el: '#app',
+
+    data: {
+      peopleCnt: 2,
+      weightAndHeightList: [] // {id: 1, w: 65, h: 178, score: 0}
+    },
+
+    computed: {
+      validPeopleCnt() {
+        const peopleCnt = this.toNumberType(this.peopleCnt);
+
+        if (peopleCnt >= 2 && peopleCnt <= 50) {
+          return peopleCnt;
+        }
+
+        return 2;
+      }
+    },
+
+    methods: {
+      toNumberType(strNumOrSuspectedNum) {
+        const result = parseInt(strNumOrSuspectedNum);
+
+        if (!result) {
+          return 2;
+        }
+
+        return result;
+      },
+
+      onInit() {
+        for (let i = 1; i <= this.peopleCnt; i++) {
+          this.weightAndHeightList.push({
+            id: i,
+            w: 0,
+            h: 0,
+            score: 0
+          });
+        }
+      },
+
+      onSubmit() {
+        console.log('onSubmit!');
+      },
+
+      onKeydownPeopleCnt(e) {
+        e.preventDefault();
+        alert('인원수 등록은 업/다운 버튼만 활용해 주세요 :)');
+      },
+
+      onChangePeopleCnt(prevCnt, e) {
+        const currentCnt = this.toNumberType(e.target.value);
+
+        this.peopleCnt = currentCnt;
+
+        if (currentCnt > prevCnt) {
+          this.weightAndHeightList.push({
+            id: this.weightAndHeightList.length + 1,
+            w: 0,
+            h: 0,
+            score: 0
+          });
+        }
+
+        if (currentCnt < prevCnt) {
+          this.weightAndHeightList.pop();
+        }
+      },
+
+      compareWeightAndHeight() {
+        for (let i = 0; i < this.weightAndHeightList.length - 1; i++) {
+          for (let j = i + 1; j < this.weightAndHeightList.length; j++) {
+            if (
+              this.weightAndHeightList[i].w > this.weightAndHeightList[j].w &&
+              this.weightAndHeightList[i].h > this.weightAndHeightList[j].h
+            ) {
+              this.weightAndHeightList[i].s += 1;
+            }
+          }
+        }
+
+
+      }
+    },
+
+    created() {
+      this.onInit();
+    }
+  });
+</script>
+</body>
+</html>
