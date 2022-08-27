@@ -36,6 +36,7 @@
         <span>{{ n }}번 : </span>
         <input
           v-model.number="weightAndHeightList[n-1]['w']"
+          @change="onChangeInputWeight"
           type="number"
           min="10"
           max="200"
@@ -43,13 +44,16 @@
         />
         <input
           v-model.number="weightAndHeightList[n-1]['h']"
+          @change="onChangeInputHeight"
           type="number"
           min="10"
           max="200"
           placeholder="신장"
         />
 
-        <span></span>
+        <span v-if="isSubmitCompareRank">
+          {{ weightAndHeightList[n - 1].rank }}등
+        </span>
       </div>
     </div>
 
@@ -65,7 +69,10 @@
 
     data: {
       peopleCnt: 2,
-      weightAndHeightList: [] // {id: 1, w: 65, h: 178, score: 0}
+      weightAndHeightList: [], // {id: 1, w: 65, h: 178, score: 0, rank: 0}
+
+      // 순위 정하기 버튼 누른 경우 순위 보여주기 위해 체크
+      isSubmitCompareRank: false
     },
 
     computed: {
@@ -81,29 +88,25 @@
     },
 
     methods: {
-      toNumberType(strNumOrSuspectedNum) {
-        const result = parseInt(strNumOrSuspectedNum);
-
-        if (!result) {
-          return 2;
-        }
-
-        return result;
-      },
-
       onInit() {
         for (let i = 1; i <= this.peopleCnt; i++) {
           this.weightAndHeightList.push({
             id: i,
             w: 0,
             h: 0,
-            score: 0
+            score: 0,
+            rank: 0
           });
         }
       },
 
       onSubmit() {
         console.log('onSubmit!');
+        this.compareWeightAndHeight();
+
+        this.compareRank();
+
+        this.isSubmitCompareRank = true;
       },
 
       onKeydownPeopleCnt(e) {
@@ -112,6 +115,10 @@
       },
 
       onChangePeopleCnt(prevCnt, e) {
+        this.isSubmitCompareRank = false;
+
+        this.initScoreAndRank();
+
         const currentCnt = this.toNumberType(e.target.value);
 
         this.peopleCnt = currentCnt;
@@ -121,7 +128,8 @@
             id: this.weightAndHeightList.length + 1,
             w: 0,
             h: 0,
-            score: 0
+            score: 0,
+            rank: 0
           });
         }
 
@@ -130,19 +138,74 @@
         }
       },
 
+      onChangeInputWeight() {
+        this.isSubmitCompareRank = false;
+
+        this.initScoreAndRank();
+      },
+
+      onChangeInputHeight() {
+        this.isSubmitCompareRank = false;
+
+        this.initScoreAndRank();
+      },
+
       compareWeightAndHeight() {
-        for (let i = 0; i < this.weightAndHeightList.length - 1; i++) {
-          for (let j = i + 1; j < this.weightAndHeightList.length; j++) {
+        console.log('compareWeightAndHeight!');
+        for (let i = 0; i < this.weightAndHeightList.length; i++) {
+          for (let j = 0; j < this.weightAndHeightList.length; j++) {
             if (
+              this.weightAndHeightList[i].id !== this.weightAndHeightList[j].id &&
               this.weightAndHeightList[i].w > this.weightAndHeightList[j].w &&
               this.weightAndHeightList[i].h > this.weightAndHeightList[j].h
             ) {
-              this.weightAndHeightList[i].s += 1;
+              this.weightAndHeightList[i].score += 1;
             }
           }
         }
 
+        console.log(this.weightAndHeightList);
 
+
+      },
+
+      compareRank() {
+        let scoreList = [];
+
+        this.weightAndHeightList.forEach(wh => scoreList.push(wh.score));
+
+        scoreList = [...new Set(scoreList)];
+
+        scoreList.sort((a, b) => b - a);
+
+        this.weightAndHeightList
+          .forEach(wh => {
+            if (wh.score) {
+              wh.rank = scoreList.indexOf(wh.score) + 1;
+            }
+
+            if (wh.score === 0) {
+              wh.rank = this.weightAndHeightList.length;
+            }
+
+          });
+      },
+
+      initScoreAndRank() {
+        this.weightAndHeightList.forEach(wh => {
+          wh.score = 0;
+          wh.rank = 0;
+        });
+      },
+
+      toNumberType(strNumOrSuspectedNum) {
+        const result = parseInt(strNumOrSuspectedNum);
+
+        if (!result) {
+          return 2;
+        }
+
+        return result;
       }
     },
 
