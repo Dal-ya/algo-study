@@ -14,3 +14,8 @@ const input2 = [2, 1, 2, 1, 2, 1];
 
 const result = solution(input2);
 console.log(result);
+
+// const fs = require('fs');
+// const input = fs.readFileSync('/dev/stdin').toString().trim().split(' ').map(v => +v);
+
+// console.log(process);
