@@ -1,215 +1,216 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no,
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no,
                  initial-scale=1.0, maximum-scale=1.0,
                  minimum-scale=1.0"
-  />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
-  <!-- vue install -->
-  <!-- development version, includes helpful console warnings -->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>-->
-
-  <!-- production version, optimized for size and speed -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-
-  <title>덩치</title>
-</head>
-<body>
-<div id="app">
-  <h5>인원을 입력하세요(2~50)</h5>
-  <form v-on:submit.prevent="onSubmit">
-    <input
-      :value="peopleCnt"
-      @change="onChangePeopleCnt(peopleCnt, $event)"
-      @keydown="onKeydownPeopleCnt"
-      type="number"
-      min="2"
-      max="50"
     />
-    <hr />
-    <div>
-      <div v-for="n in validPeopleCnt">
-        <span>{{ n }}번 : </span>
-        <input
-          v-model.number="weightAndHeightList[n-1]['w']"
-          @change="onChangeInputWeight"
-          type="number"
-          min="10"
-          max="200"
-          placeholder="몸무게"
-        />
-        <input
-          v-model.number="weightAndHeightList[n-1]['h']"
-          @change="onChangeInputHeight"
-          type="number"
-          min="10"
-          max="200"
-          placeholder="신장"
-        />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-        <span v-if="isSubmitCompareRank">
-          {{ weightAndHeightList[n - 1].rank }}등
-        </span>
-      </div>
+    <!-- vue install -->
+    <!-- development version, includes helpful console warnings -->
+    <!--  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>-->
+
+    <!-- production vsersion, optimized for size and speed -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+    <title>덩치</title>
+  </head>
+  <body>
+    <div id="app">
+      <h5>인원을 입력하세요(2~50)</h5>
+      <form v-on:submit.prevent="onSubmit">
+        <input
+          :value="peopleCnt"
+          @change="onChangePeopleCnt(peopleCnt, $event)"
+          @keydown="onKeydownPeopleCnt"
+          type="number"
+          min="2"
+          max="50"
+        />
+        <hr />
+        <div>
+          <div v-for="n in validPeopleCnt">
+            <span>{{ n }}번 : </span>
+            <input
+              v-model.number="weightAndHeightList[n-1]['w']"
+              @change="onChangeInputWeight"
+              type="number"
+              min="10"
+              max="200"
+              placeholder="몸무게"
+            />
+            <input
+              v-model.number="weightAndHeightList[n-1]['h']"
+              @change="onChangeInputHeight"
+              type="number"
+              min="10"
+              max="200"
+              placeholder="신장"
+            />
+
+            <span v-if="isSubmitCompareRank">
+              {{ weightAndHeightList[n - 1].rank }}등
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit">덩치 순위 정하기</button>
+        </div>
+      </form>
     </div>
 
-    <div>
-      <button type="submit">덩치 순위 정하기</button>
-    </div>
-  </form>
-</div>
+    <script>
+      const app = new Vue({
+        el: '#app',
 
-<script>
-  const app = new Vue({
-    el: '#app',
+        data: {
+          peopleCnt: 2,
 
-    data: {
-      peopleCnt: 2,
+          // [ {id: 1, w: 65, h: 178, score: 0, rank: 0}, {...}, ... ]
+          weightAndHeightList: [],
 
-      // [ {id: 1, w: 65, h: 178, score: 0, rank: 0}, {...}, ... ]
-      weightAndHeightList: [],
+          // 순위 정하기 버튼 누른 경우 순위 보여주기 위해 체크
+          isSubmitCompareRank: false,
+        },
 
-      // 순위 정하기 버튼 누른 경우 순위 보여주기 위해 체크
-      isSubmitCompareRank: false
-    },
+        computed: {
+          validPeopleCnt() {
+            const peopleCnt = this.toNumberType(this.peopleCnt);
 
-    computed: {
-      validPeopleCnt() {
-        const peopleCnt = this.toNumberType(this.peopleCnt);
-
-        if (peopleCnt >= 2 && peopleCnt <= 50) {
-          return peopleCnt;
-        }
-
-        return 2;
-      }
-    },
-
-    methods: {
-      onInit() {
-        for (let i = 1; i <= this.peopleCnt; i++) {
-          this.weightAndHeightList.push({
-            id: i,
-            w: 0,
-            h: 0,
-            score: 0,
-            rank: 0
-          });
-        }
-      },
-
-      onSubmit() {
-        this.compareWeightAndHeight();
-
-        this.compareRank();
-
-        this.isSubmitCompareRank = true;
-      },
-
-      onKeydownPeopleCnt(e) {
-        e.preventDefault();
-
-        alert('인원수 등록은 업/다운 버튼만 활용해 주세요 :)');
-      },
-
-      onChangePeopleCnt(prevCnt, e) {
-        this.isSubmitCompareRank = false;
-
-        this.initScoreAndRank();
-
-        const currentCnt = this.toNumberType(e.target.value);
-
-        this.peopleCnt = currentCnt;
-
-        if (currentCnt > prevCnt) {
-          this.weightAndHeightList.push({
-            id: this.weightAndHeightList.length + 1,
-            w: 0,
-            h: 0,
-            score: 0,
-            rank: 0
-          });
-        }
-
-        if (currentCnt < prevCnt) {
-          this.weightAndHeightList.pop();
-        }
-      },
-
-      onChangeInputWeight() {
-        this.isSubmitCompareRank = false;
-
-        this.initScoreAndRank();
-      },
-
-      onChangeInputHeight() {
-        this.isSubmitCompareRank = false;
-
-        this.initScoreAndRank();
-      },
-
-      compareWeightAndHeight() {
-        for (let i = 0; i < this.weightAndHeightList.length; i++) {
-          for (let j = 0; j < this.weightAndHeightList.length; j++) {
-            if (
-              this.weightAndHeightList[i].id !== this.weightAndHeightList[j].id &&
-              this.weightAndHeightList[i].w > this.weightAndHeightList[j].w &&
-              this.weightAndHeightList[i].h > this.weightAndHeightList[j].h
-            ) {
-              this.weightAndHeightList[i].score += 1;
-            }
-          }
-        }
-      },
-
-      compareRank() {
-        let scoreList = [];
-
-        this.weightAndHeightList.forEach(wh => scoreList.push(wh.score));
-
-        scoreList = [...new Set(scoreList)];
-
-        scoreList.sort((a, b) => b - a);
-
-        this.weightAndHeightList
-          .forEach(wh => {
-            if (wh.score) {
-              wh.rank = scoreList.indexOf(wh.score) + 1;
+            if (peopleCnt >= 2 && peopleCnt <= 50) {
+              return peopleCnt;
             }
 
-            if (wh.score === 0) {
-              wh.rank = this.weightAndHeightList.length;
+            return 2;
+          },
+        },
+
+        methods: {
+          onInit() {
+            for (let i = 1; i <= this.peopleCnt; i++) {
+              this.weightAndHeightList.push({
+                id: i,
+                w: 0,
+                h: 0,
+                score: 0,
+                rank: 0,
+              });
+            }
+          },
+
+          onSubmit() {
+            this.compareWeightAndHeight();
+
+            this.compareRank();
+
+            this.isSubmitCompareRank = true;
+          },
+
+          onKeydownPeopleCnt(e) {
+            e.preventDefault();
+
+            alert('인원수 등록은 업/다운 버튼만 활용해 주세요 :)');
+          },
+
+          onChangePeopleCnt(prevCnt, e) {
+            this.isSubmitCompareRank = false;
+
+            this.initScoreAndRank();
+
+            const currentCnt = this.toNumberType(e.target.value);
+
+            this.peopleCnt = currentCnt;
+
+            if (currentCnt > prevCnt) {
+              this.weightAndHeightList.push({
+                id: this.weightAndHeightList.length + 1,
+                w: 0,
+                h: 0,
+                score: 0,
+                rank: 0,
+              });
             }
 
-          });
-      },
+            if (currentCnt < prevCnt) {
+              this.weightAndHeightList.pop();
+            }
+          },
 
-      initScoreAndRank() {
-        this.weightAndHeightList.forEach(wh => {
-          wh.score = 0;
-          wh.rank = 0;
-        });
-      },
+          onChangeInputWeight() {
+            this.isSubmitCompareRank = false;
 
-      toNumberType(strNumOrSuspectedNum) {
-        const result = parseInt(strNumOrSuspectedNum);
+            this.initScoreAndRank();
+          },
 
-        if (!result) {
-          return 2;
-        }
+          onChangeInputHeight() {
+            this.isSubmitCompareRank = false;
 
-        return result;
-      }
-    },
+            this.initScoreAndRank();
+          },
 
-    created() {
-      this.onInit();
-    }
-  });
-</script>
-</body>
+          compareWeightAndHeight() {
+            for (let i = 0; i < this.weightAndHeightList.length; i++) {
+              for (let j = 0; j < this.weightAndHeightList.length; j++) {
+                if (
+                  this.weightAndHeightList[i].id !==
+                    this.weightAndHeightList[j].id &&
+                  this.weightAndHeightList[i].w >
+                    this.weightAndHeightList[j].w &&
+                  this.weightAndHeightList[i].h > this.weightAndHeightList[j].h
+                ) {
+                  this.weightAndHeightList[i].score += 1;
+                }
+              }
+            }
+          },
+
+          compareRank() {
+            let scoreList = [];
+
+            this.weightAndHeightList.forEach((wh) => scoreList.push(wh.score));
+
+            scoreList = [...new Set(scoreList)];
+
+            scoreList.sort((a, b) => b - a);
+
+            this.weightAndHeightList.forEach((wh) => {
+              if (wh.score) {
+                wh.rank = scoreList.indexOf(wh.score) + 1;
+              }
+
+              if (wh.score === 0) {
+                wh.rank = this.weightAndHeightList.length;
+              }
+            });
+          },
+
+          initScoreAndRank() {
+            this.weightAndHeightList.forEach((wh) => {
+              wh.score = 0;
+              wh.rank = 0;
+            });
+          },
+
+          toNumberType(strNumOrSuspectedNum) {
+            const result = parseInt(strNumOrSuspectedNum);
+
+            if (!result) {
+              return 2;
+            }
+
+            return result;
+          },
+        },
+
+        created() {
+          this.onInit();
+        },
+      });
+    </script>
+  </body>
 </html>
