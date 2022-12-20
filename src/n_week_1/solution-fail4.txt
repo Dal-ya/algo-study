@@ -1,0 +1,27 @@
+// 시간초과 실패
+
+function solution(ingredient: number[]): number {
+  let answer = 0;
+
+  const HAMBUGER = [1, 2, 3, 1].join('');
+
+  let _ingredient = ingredient.join('');
+
+  let isLoop = true;
+
+  while (isLoop) {
+    let findIdx = _ingredient.indexOf(HAMBUGER);
+
+    if (findIdx === -1) {
+      isLoop = false;
+      break;
+    }
+
+    ++answer;
+
+    _ingredient = _ingredient.replace(HAMBUGER, '');
+  }
+
+  // console.log('answer: ', answer);
+  return answer;
+}

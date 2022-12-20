@@ -1,0 +1,26 @@
+// 시간초과 실패
+
+function solution(ingredient: number[]): number {
+  let answer = 0;
+
+  const HAMBUGER: number[] = [1, 2, 3, 1];
+
+  for (let i = 0; i < ingredient.length; i++) {
+    if (
+      ingredient[i] === HAMBUGER[0] &&
+      ingredient[i + 1] === HAMBUGER[1] &&
+      ingredient[i + 2] === HAMBUGER[2] &&
+      ingredient[i + 3] === HAMBUGER[3]
+    ) {
+      ingredient.splice(i, 4);
+      ++answer;
+      i = -1;
+    }
+  }
+
+  // console.log('answer: ', answer);
+
+  return answer;
+}
+
+solution([2, 1, 1, 2, 3, 1, 1, 2, 3, 1, 2, 3, 1, 3]);
