@@ -2,20 +2,22 @@ function solution(id_list, report, k) {
   var answer = [];
 
   let infoList = genInfoList(id_list);
+  // console.log('gen info list: ', infoList);
 
   infoList = writeReportId(infoList, report);
-  
+  // console.log('write report id list: ', infoList);
+
   infoList = genReportedIdList(infoList);
+  // console.log('gen reported id list: ', infoList);
 
-  infoList = sendBanInfoMail(infoList, k)
+  infoList = sendBanInfoMail(infoList, k);
+  // console.log('send ban info mail: ', infoList);
 
-  console.log('info list: ', infoList)
-
-  infoList.forEach(info => {
+  infoList.forEach((info) => {
     answer.push(info.mailCnt);
   });
 
-  console.log('answer: ', answer)
+  // console.log('answer: ', answer)
 
   return answer;
 }
@@ -49,12 +51,12 @@ function writeReportId(infoList, reportList) {
 function genReportedIdList(infoList) {
   let reportedIdList = [];
 
-  infoList.forEach(info => {
+  infoList.forEach((info) => {
     reportedIdList.push(...info.reportId);
   });
 
-  infoList.forEach(info => {
-    info.reportedCnt = reportedIdList.filter(id => info.id === id).length;
+  infoList.forEach((info) => {
+    info.reportedCnt = reportedIdList.filter((id) => info.id === id).length;
   });
 
   return infoList;
@@ -63,15 +65,15 @@ function genReportedIdList(infoList) {
 function sendBanInfoMail(infoList, banCnt) {
   let banIdList = [];
 
-  infoList.forEach(info => {
-    if(info.reportedCnt === banCnt) {
+  infoList.forEach((info) => {
+    if (info.reportedCnt === banCnt) {
       banIdList.push(info.id);
     }
   });
 
-  infoList.forEach(info => {
-    info.reportId.forEach(id => {
-      if(banIdList.includes(id)) {
+  infoList.forEach((info) => {
+    info.reportId.forEach((id) => {
+      if (banIdList.includes(id)) {
         info.mailCnt += 1;
       }
     });
@@ -80,10 +82,4 @@ function sendBanInfoMail(infoList, banCnt) {
   return infoList;
 }
 
-solution(
-  ['muzi', 'frodo', 'apeach', 'neo'],
-  ['muzi frodo', 'apeach frodo', 'frodo neo', 'muzi neo', 'apeach muzi'],
-  2
-);
-
-// return --> [2,1,1,0]
+module.exports = solution;
