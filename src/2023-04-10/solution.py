@@ -11,8 +11,8 @@ def solution(k, tangerine):
 
     # 2차원 배열 sort
     # https://haesoo9410.tistory.com/193
-    tempList.sort(key=lambda x: (x[1], -x[1]), reverse=True)
-    # print(tempList)
+    tempList.sort(key=lambda x: x[1], reverse=True)
+    print(tempList)
 
     for i in range(len(tempList)):
         # print(k)
